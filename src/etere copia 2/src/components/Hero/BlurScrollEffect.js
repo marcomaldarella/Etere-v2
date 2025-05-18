@@ -2,7 +2,7 @@
 
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { TextSplitter } from "./TextSplitter";
+import { TextSplitter } from "./Textsplitter.jsx";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
