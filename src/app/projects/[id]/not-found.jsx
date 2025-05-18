@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import './not-found.css';
 
+
 export default function NotFound() {
     return (
         <div className="not-found">

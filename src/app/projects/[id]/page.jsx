@@ -13,7 +13,7 @@ import Footer from "../../../components/Footer/Footer";
 import ShuffleText from "../../../components/ShuffleText/ShuffleText";
 import "../../archive/archive.css";
 import "./project.css";
-import { useScrollManager } from "../../../hooks/useTransition";
+import { useScrollManager } from "../../../hooks/useScrollManager";
 
 gsap.registerPlugin(useGSAP);
 gsap.registerPlugin(ScrollTrigger);
