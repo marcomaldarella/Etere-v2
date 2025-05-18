@@ -1,78 +1,55 @@
-"use client";
+"use client"
 
-import { useEffect, useRef } from "react";
-import { usePathname } from "next/navigation";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import { useEffect, useRef } from "react"
+import { usePathname } from "next/navigation"
 
-export default function ScrollReset() {
-    const pathname = usePathname();
-    const isInitialMount = useRef(true);
-    const isNavigating = useRef(false);
-    const previousPathname = useRef("");
+export default function Providers({ children }) {
+    const lenisRef = useRef();
 
+    // 1. Setup ScrollTrigger
     useEffect(() => {
-        // Registra ScrollTrigger
-        if (typeof window !== "undefined") {
-            gsap.registerPlugin(ScrollTrigger);
-        }
+        if (typeof window === "undefined") return;
 
-        // Skip the initial mount
-        if (isInitialMount.current) {
-            isInitialMount.current = false;
-            previousPathname.current = pathname;
-            return;
-        }
+        gsap.registerPlugin(ScrollTrigger);
 
-        // Don't reset on hash changes within the same page
-        if (previousPathname.current.split('#')[0] === pathname.split('#')[0]) {
-            previousPathname.current = pathname;
-            return;
-        }
+        ScrollTrigger.defaults({
+            scroller: document.querySelector(".app"),
+            markers: false,
+        });
 
-        // Prevent multiple navigations from running simultaneously
-        if (isNavigating.current) return;
-        isNavigating.current = true;
-
-        const handleNavigation = () => {
-            if (typeof window !== "undefined") {
-                try {
-                    // Pulisci ScrollTrigger
-                    ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-
-                    if (ScrollTrigger.clearScrollMemory) {
-                        ScrollTrigger.clearScrollMemory();
-                    }
-
-                    // Forza immediato scroll a 0
-                    window.scrollTo({ top: 0, behavior: 'auto' });
-                    document.documentElement.scrollTop = 0;
-                    document.body.scrollTop = 0;
-
-                    // Reset navigation state
-                    isNavigating.current = false;
-                    previousPathname.current = pathname;
-
-                    // Refresh ScrollTrigger
-                    setTimeout(() => {
-                        if (typeof window !== "undefined") {
-                            ScrollTrigger.refresh();
-                        }
-                    }, 100);
-                } catch (error) {
-                    isNavigating.current = false;
-                    previousPathname.current = pathname;
-                }
+        return () => {
+            ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+            if (lenisRef.current) {
+                lenisRef.current.destroy();
             }
         };
+    }, []);
 
-        // Eseguire con requestAnimationFrame per garantire che il DOM sia pronto
-        if (typeof window !== "undefined") {
-            requestAnimationFrame(() => {
-                handleNavigation();
-            });
+    // ✅ 2. Inietta lenis su window per usarlo globalmente
+    useEffect(() => {
+        if (typeof window !== "undefined" && lenisRef.current) {
+            window.lenis = lenisRef.current;
         }
-    }, [pathname]);
+    }, []);
 
-    return null;
-} 
+    return (
+        <ContentProvider>
+            <ReactLenis
+                ref={lenisRef}
+                root
+                className="app"
+                options={{
+                    duration: 1.5,
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                    smooth: true,
+                    smoothTouch: false,
+                    touchMultiplier: 1.5,
+                }}
+            >
+                <Navbar />
+                {children}
+            </ReactLenis>
+        </ContentProvider>
+    );
+}
+

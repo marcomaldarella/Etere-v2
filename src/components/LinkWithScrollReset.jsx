@@ -1,29 +1,33 @@
-"use client";
-import { useRouter } from "next/navigation";
+"use client"
 
-export default function LinkWithScrollReset({ href, children, ...props }) {
-    const router = useRouter();
+import Link from "next/link"
+import { useRouter } from "next/navigation"
+
+export default function LinkWithScrollReset({ href, children, className }) {
+    const router = useRouter()
 
     const handleClick = (e) => {
-        e.preventDefault();
-        // Animazione scroll a zero
-        if (window.lenis) {
-            window.lenis.scrollTo(0, { duration: 1, force: true });
-            setTimeout(() => {
-                router.push(href);
-            }, 1000); // Attendi la fine dell'animazione Lenis
-        } else {
-            window.scrollTo({ top: 0, behavior: "smooth" });
-            setTimeout(() => {
-                router.push(href);
-            }, 600); // Tempo stimato per lo scroll nativo
+        e.preventDefault()
+
+        // Stop any ongoing scroll animations
+        if (typeof window !== "undefined" && window.lenis) {
+            window.lenis.stop()
         }
-        if (props.onClick) props.onClick(e);
-    };
+
+        // Clean up ScrollTrigger instances before navigation
+        if (typeof window !== "undefined" && window.ScrollTrigger) {
+            window.ScrollTrigger.getAll().forEach((trigger) => {
+                trigger.kill()
+            })
+        }
+
+        // Navigate to the new page
+        router.push(href)
+    }
 
     return (
-        <a href={href} {...props} onClick={handleClick}>
+        <Link href={href} onClick={handleClick} className={className}>
             {children}
-        </a>
-    );
-} 
+        </Link>
+    )
+}

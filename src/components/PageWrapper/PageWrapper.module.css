@@ -1,0 +1,8 @@
+.pageWrapper {
+  /* Add will-change to optimize rendering */
+  will-change: transform;
+  /* Add containment for better performance */
+  contain: layout style;
+  /* Ensure the wrapper takes full height */
+  min-height: 100vh;
+}

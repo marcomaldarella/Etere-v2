@@ -1,0 +1,301 @@
+/* About Page Styles */
+.aboutPage {
+    color: #111;
+    overflow-x: hidden;
+    background-color: #fff;
+}
+
+/* Grid System */
+.gridContainer {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 2rem;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.gridCol12 {
+    grid-column: span 12;
+}
+
+.gridCol8 {
+    grid-column: span 8;
+}
+
+.gridCol4 {
+    grid-column: span 4;
+}
+
+.gridSpacer {
+    grid-column: span 0;
+}
+
+/* Hero Section - Gradient Background */
+.heroSection {
+    padding: 12rem 0 10rem;
+    position: relative;
+    background: #fff;
+    overflow: hidden;
+}
+
+/* Initial hidden state for animated elements */
+.heroHeadline,
+.companyDescription,
+.statCard,
+.teamCard {
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+/* Hero Text Styles */
+.heroHeadline {
+    font-size: clamp(2.5rem, 5vw, 5rem);
+    font-weight: 700;
+    line-height: 0.9em;
+    letter-spacing: -0.02em;
+    margin: 0;
+    color: #000;
+}
+
+.companyDescription {
+    font-size: clamp(1.1rem, 1.8vw, 1.3rem);
+    line-height: 1.5;
+    margin: 0;
+    padding-top: 1rem;
+    color: #333;
+    grid-column: span 6 !important;
+    /* << aumenta la larghezza nella griglia */
+}
+
+.descriptionWider {
+    grid-column: span 6 !important;
+}
+
+/* Stats Section - Smooth Gradient Background */
+.statsSection {
+    padding: 8rem 0;
+    background: linear-gradient(to bottom, #fff 0%, #f0f0f0 100%);
+    margin: 2em;
+    border-radius: 2em;
+}
+
+.statCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 2rem;
+    border-radius: 50%;
+    aspect-ratio: 1 / 1;
+    background-color: #111;
+    color: white;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+    max-width: 280px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.statCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.statIcon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.counterValue {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.animatedDigit,
+.counterSuffix {
+    color: white;
+}
+
+.counterSuffix {
+    animation: pulseEffect 2s infinite;
+}
+
+@keyframes pulseEffect {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+.statLabel {
+    font-size: 1.1rem;
+    max-width: 160px;
+    line-height: 1.3;
+    color: white;
+}
+
+/* Team Section - Background Gradient */
+.aboutTeam {
+    padding: 10rem 0;
+    background: linear-gradient(to bottom, #fff 0%, #f0f0f0 100%);
+}
+
+.sectionTitle {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 5rem;
+    letter-spacing: -0.02em;
+    color: #111;
+}
+
+/* Ensure equal height team cards */
+.aboutTeam .gridCol4 {
+    display: flex;
+}
+
+.teamCard {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    flex: 1;
+    height: 100%;
+}
+
+.teamCard:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.teamPhotoWrapper {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background-color: #f5f5f5;
+}
+
+.teamPhoto {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.teamCard:hover .teamPhoto {
+    transform: scale(1.05);
+}
+
+.teamInfo {
+    padding: 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.teamName {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0 0 0.25rem;
+    color: #111;
+}
+
+.teamRole {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+.teamRole::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background-color: #111;
+}
+
+.teamSection {
+    margin-bottom: 1.5rem;
+}
+
+.teamSection strong {
+    font-size: 1rem;
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #000;
+}
+
+.teamSection ul {
+    margin: 0;
+    font-size: 0.95rem;
+    color: #555;
+    list-style: none;
+    padding-left: 0;
+    line-height: 1.5;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .gridCol8 {
+        grid-column: span 7;
+    }
+
+    .gridCol4 {
+        grid-column: span 5;
+    }
+}
+
+@media (max-width: 992px) {
+
+    .gridCol8,
+    .gridCol4 {
+        grid-column: 1 / -1;
+    }
+
+    .heroSection {
+        padding: 8rem 0 6rem;
+    }
+
+    .companyDescription {
+        padding-top: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .statsSection .gridCol4 {
+        grid-column: 1 / -1;
+    }
+
+    .statCard {
+        margin-bottom: 2rem;
+    }
+
+    .aboutTeam .gridCol4 {
+        grid-column: 1 / -1;
+    }
+
+    .teamCard {
+        margin-bottom: 3rem;
+    }
+}

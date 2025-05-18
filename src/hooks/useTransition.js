@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { usePathname } from "next/navigation"
 
+// Export the hook properly - make sure it's a named export
 export function useTransition() {
     const [isTransitioning, setIsTransitioning] = useState(false)
     const pathname = usePathname()
@@ -23,3 +24,6 @@ export function useTransition() {
 
     return { isTransitioning }
 }
+
+// Also add a default export for components that might be using it that way
+export default useTransition

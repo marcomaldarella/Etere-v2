@@ -78,7 +78,7 @@ export default function ProjectPage() {
     return (
         <>
             <main className="project-page" ref={containerRef} style={{ opacity: isReady ? 1 : 0, transition: "opacity 0.3s ease" }}>
-                <section className="project-header">
+                <section className="expertise-header">
                     <div className="image-wrapper" ref={imageRef}>
                         <h1>{project.title}</h1>
                         <img src={project.cover} alt={project.title} />

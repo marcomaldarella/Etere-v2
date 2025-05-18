@@ -128,6 +128,14 @@
   .serviceIndex {
     align-self: flex-start;
   }
+
+  .services {
+    background-color: #fff;
+    padding: 6em 1rem;
+    position: relative;
+    z-index: 1;
+  }
+
 }
 
 /* Active state */

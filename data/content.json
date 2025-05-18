@@ -13,7 +13,7 @@
                 "index": "01 / 03",
                 "subtitle": "Shaping seamless digital transactions",
                 "description": "Crafting secure, user-centric financial solutions.",
-                "bg": "/images/carousel/carousel1.jpeg",
+                "bg": "/images/carousel/carousel1.jpg",
                 "url": "#"
             },
             {
@@ -22,7 +22,7 @@
                 "index": "02 / 03",
                 "subtitle": "Empowering modern patient care",
                 "description": "Building intuitive, data-driven health platforms.",
-                "bg": "/images/carousel/carousel2.jpeg",
+                "bg": "/images/carousel/carousel2.jpg",
                 "url": "#"
             },
             {
@@ -31,7 +31,7 @@
                 "index": "03 / 03",
                 "subtitle": "Optimizing end-to-end operations",
                 "description": "Streamlining supply chains with intelligent tools.",
-                "bg": "/images/carousel/carousel3.jpeg",
+                "bg": "/images/carousel/carousel3.jpg",
                 "url": "#"
             }
         ],
@@ -65,10 +65,81 @@
     },
     "projects": [
         {
+            "id": "operations-platform",
+            "title": "Taxi Operation Platform",
+            "subtitle": "Real-time taxi and ride-sharing coordination.",
+            "cover": "/images/home/case-study-3.jpg",
+            "tag": "Flutter App",
+            "categories": [
+                "Mobility",
+                "Logistics"
+            ],
+            "client": "WeTaxi",
+            "sector": "Mobility",
+            "tech": "Flutter",
+            "pain": "WeTaxi faced inefficiencies due to taxi bookings being manually coordinated and updated on website by staff. The lack of a driver-side app and real-time communication created delays in managing ride requests.",
+            "solution": "Etere Studio developed the WeTaxi mobile platform to deliver an integrated experience for taxi booking, payments, and real-time ride-sharing.\nReal-time GPS tracking for accurate driver-passenger coordination\nGuided user flow for booking, fare calculation, and digital payments\nAutomated data sync for transaction history and fare validation\nLive ride and route sharing for coordinated, multi-passenger journeys",
+            "highlights": [
+                "Real-time GPS tracking for accurate driver-passenger coordination",
+                "Guided user flow for booking, fare calculation, and digital payments",
+                "Automated data sync for transaction history and fare validation",
+                "Live ride and route sharing for coordinated, multi-passenger journeys"
+            ],
+            "images": []
+        },
+        {
+            "id": "graphic-design-app",
+            "title": "Graphic Design App",
+            "subtitle": "Digital sketching tool for fashion houses with Apple Pencil integration.",
+            "cover": "/images/home/case-study-2.jpg",
+            "tag": "iPad App",
+            "categories": [
+                "Fashion",
+                "Creative Tools",
+                "Native App"
+            ],
+            "client": "Gucci",
+            "sector": "Luxury Goods",
+            "tech": "Swift (iPadOS)",
+            "pain": "Gucci needed a custom solution to integrate Apple Pencil and iPad into its design workflow. The lack of a unified platform hindered seamless sketching, real-time collaboration, and efficient sharing of design iterations across teams, slowing down the product development cycle.",
+            "solution": "Etere Studio developed a specialized digital design platform for Gucci, integrating iPad and Apple Pencil into the fashion creation workflow.\nHigh-precision Apple Pencil support for sketching and intricate detailing\nDesigner-centric UI for an intuitive, professional creative experience\nCustomizable brushes, textures, and layering tools for realistic digital rendering\nCloud-based synchronization to enable real-time sharing and cross-team collaboration",
+            "highlights": [
+                "High-precision Apple Pencil support for sketching and intricate detailing",
+                "Designer-centric UI for an intuitive, professional creative experience",
+                "Customizable brushes, textures, and layering tools for realistic digital rendering",
+                "Cloud-based synchronization to enable real-time sharing and cross-team collaboration"
+            ],
+            "images": []
+        },
+        {
+            "id": "digital-banking-app-intesa",
+            "title": "Digital Banking App",
+            "subtitle": "Secure mobile banking and insurance access.",
+            "cover": "/images/home/case-study-1.jpg",
+            "tag": "Native App",
+            "categories": [
+                "Fintech",
+                "Security",
+                "Banking"
+            ],
+            "client": "Intesa San Paolo",
+            "sector": "Financial Services",
+            "tech": "Native iOS & Android",
+            "pain": "Banca Intesa San Paolo needed a secure, high-performance mobile platform for insurance and account management. Existing offered suboptimal user experience, and fell short on enterprise-grade security and compliance requirements.",
+            "solution": "Etere Studio co-developed a secure, high-performance mobile app for Banca Intesa San Paolo, focused on enhancing digital banking and insurance operations. Our key project focus have been:\nAccess to insurance services and account management within a single UI\nNative system integration for real-time banking data and transactional workflows\nUX optimized for security, accessibility, and regulatory compliance\nEnd-to-end encryption and secure session handling to safeguard user data",
+            "highlights": [
+                "Access to insurance services and account management within a single UI",
+                "Native system integration for real-time banking data and transactional workflows",
+                "UX optimized for security, accessibility, and regulatory compliance",
+                "End-to-end encryption and secure session handling to safeguard user data"
+            ],
+            "images": []
+        },
+        {
             "id": "dealer-management-portal",
             "title": "Dealer Management Portal",
             "subtitle": "A custom supply chain management platform for automotive dealers.",
-            "cover": "/images/home/case-study-1.jpeg",
+            "cover": "/images/home/case-study-5.jpg",
             "tag": "Flutter App",
             "categories": [
                 "Automotive",
@@ -91,7 +162,7 @@
             "id": "vehicle-rental-portal",
             "title": "Vehicle Rental Portal",
             "subtitle": "Distributed platform for vehicle rentals and telematics.",
-            "cover": "/images/home/case-study-2.jpeg",
+            "cover": "/images/home/case-study-7.jpg",
             "tag": "Flutter App",
             "categories": [
                 "Logistics",
@@ -115,7 +186,7 @@
             "id": "vehicle-management-app",
             "title": "Vehicle management app",
             "subtitle": "Bluetooth-enabled vehicle insights and insurance workflows.",
-            "cover": "/images/home/case-study-3.jpeg",
+            "cover": "/images/home/case-study-10.jpg",
             "tag": "Flutter App",
             "categories": [
                 "Automotive",
@@ -139,7 +210,7 @@
             "id": "iot-healthcare-app",
             "title": "IoT Healthcare App",
             "subtitle": "Real-time biosignal tracking for medical research.",
-            "cover": "/images/home/case-study-1.jpeg",
+            "cover": "/images/home/case-study-6.jpg",
             "tag": "Flutter App",
             "categories": [
                 "Healthcare",
@@ -155,30 +226,6 @@
                 "Real-time visualization and logging of neurological and physiological data via an intuitive interface",
                 "Adaptive signal optimization across heterogeneous medical hardware configurations",
                 "Dual-mode UI tailored for seamless use by clinicians and non-technical users alike"
-            ],
-            "images": []
-        },
-        {
-            "id": "digital-banking-app-intesa",
-            "title": "Digital Banking App",
-            "subtitle": "Secure mobile banking and insurance access.",
-            "cover": "/images/home/case-study-2.jpeg",
-            "tag": "Native App",
-            "categories": [
-                "Fintech",
-                "Security",
-                "Banking"
-            ],
-            "client": "Intesa San Paolo",
-            "sector": "Financial Services",
-            "tech": "Native iOS & Android",
-            "pain": "Banca Intesa San Paolo needed a secure, high-performance mobile platform for insurance and account management. Existing offered suboptimal user experience, and fell short on enterprise-grade security and compliance requirements.",
-            "solution": "Etere Studio co-developed a secure, high-performance mobile app for Banca Intesa San Paolo, focused on enhancing digital banking and insurance operations. Our key project focus have been:\nAccess to insurance services and account management within a single UI\nNative system integration for real-time banking data and transactional workflows\nUX optimized for security, accessibility, and regulatory compliance\nEnd-to-end encryption and secure session handling to safeguard user data",
-            "highlights": [
-                "Access to insurance services and account management within a single UI",
-                "Native system integration for real-time banking data and transactional workflows",
-                "UX optimized for security, accessibility, and regulatory compliance",
-                "End-to-end encryption and secure session handling to safeguard user data"
             ],
             "images": []
         },
@@ -206,34 +253,10 @@
             "images": []
         },
         {
-            "id": "graphic-design-app",
-            "title": "Graphic Design App",
-            "subtitle": "Digital sketching tool for fashion houses with Apple Pencil integration.",
-            "cover": "/images/home/case-study-1.jpeg",
-            "tag": "iPad App",
-            "categories": [
-                "Fashion",
-                "Creative Tools",
-                "Native App"
-            ],
-            "client": "Gucci",
-            "sector": "Luxury Goods",
-            "tech": "Swift (iPadOS)",
-            "pain": "Gucci needed a custom solution to integrate Apple Pencil and iPad into its design workflow. The lack of a unified platform hindered seamless sketching, real-time collaboration, and efficient sharing of design iterations across teams, slowing down the product development cycle.",
-            "solution": "Etere Studio developed a specialized digital design platform for Gucci, integrating iPad and Apple Pencil into the fashion creation workflow.\nHigh-precision Apple Pencil support for sketching and intricate detailing\nDesigner-centric UI for an intuitive, professional creative experience\nCustomizable brushes, textures, and layering tools for realistic digital rendering\nCloud-based synchronization to enable real-time sharing and cross-team collaboration",
-            "highlights": [
-                "High-precision Apple Pencil support for sketching and intricate detailing",
-                "Designer-centric UI for an intuitive, professional creative experience",
-                "Customizable brushes, textures, and layering tools for realistic digital rendering",
-                "Cloud-based synchronization to enable real-time sharing and cross-team collaboration"
-            ],
-            "images": []
-        },
-        {
             "id": "sportsbook-and-casino-app",
             "title": "Sportsbook and Casino App",
             "subtitle": "Scalable white-label betting platform.",
-            "cover": "/images/home/case-study-2.jpeg",
+            "cover": "/images/home/case-study-9.jpg",
             "tag": "Flutter App",
             "categories": [
                 "Betting",
@@ -248,29 +271,6 @@
                 "Scalable architecture supporting millions of concurrent users with high availability",
                 "Fully customizable white-label framework for rapid brand onboarding",
                 "End-to-end Flutter development enabling a unified, high-performance cross-platform user experience"
-            ],
-            "images": []
-        },
-        {
-            "id": "operations-platform",
-            "title": "Operations Platform",
-            "subtitle": "Real-time taxi and ride-sharing coordination.",
-            "cover": "/images/home/case-study-3.jpeg",
-            "tag": "Flutter App",
-            "categories": [
-                "Mobility",
-                "Logistics"
-            ],
-            "client": "WeTaxi",
-            "sector": "Mobility",
-            "tech": "Flutter",
-            "pain": "WeTaxi faced inefficiencies due to taxi bookings being manually coordinated and updated on website by staff. The lack of a driver-side app and real-time communication created delays in managing ride requests.",
-            "solution": "Etere Studio developed the WeTaxi mobile platform to deliver an integrated experience for taxi booking, payments, and real-time ride-sharing.\nReal-time GPS tracking for accurate driver-passenger coordination\nGuided user flow for booking, fare calculation, and digital payments\nAutomated data sync for transaction history and fare validation\nLive ride and route sharing for coordinated, multi-passenger journeys",
-            "highlights": [
-                "Real-time GPS tracking for accurate driver-passenger coordination",
-                "Guided user flow for booking, fare calculation, and digital payments",
-                "Automated data sync for transaction history and fare validation",
-                "Live ride and route sharing for coordinated, multi-passenger journeys"
             ],
             "images": []
         }

@@ -229,7 +229,7 @@ export default function Home() {
                   </div>
                   <p>{project.solution}</p>
                   <div className="case-studies-item-inner-link">
-                    <Link href={`/projects/${project.id}`}>View Article</Link>
+                    <Link href={`/projects/${project.id}`}>View project</Link>
                     <div className="link-icon">
                       <MdArrowOutward size={24} />
                     </div>
@@ -242,11 +242,10 @@ export default function Home() {
             {projects && projects.slice(0, 3).map((project, idx) => (
               <div className={`case-studies-img case-studies-img-${idx + 1}`} key={project.id}>
                 <img src={project.cover} alt={project.title} />
-                <div className="hero-img-overlay"></div>
                 <div className="case-studies-img-link">
                   <Link href={`/projects/${project.id}`}>
                     <span>
-                      (&nbsp; View Article <MdArrowOutward />
+                      (&nbsp; <MdArrowOutward />
                       &nbsp;)
                     </span>
                   </Link>
@@ -260,7 +259,7 @@ export default function Home() {
           <div className="container">
             <ShuffleText
               as="h2"
-              text="Timeless Art Through a New Lens"
+              text="Our Expertise"
               triggerOnScroll={true}
             />
           </div>
@@ -281,31 +280,31 @@ export default function Home() {
             >
               <div className="project-bg">
                 <img src={item.bg} alt="" />
-                <div className="hero-img-overlay"></div>
                 <div className="hero-img-gradient"></div>
               </div>
               <div className="project-main">
                 <img src={item.main} alt="" />
               </div>
-              <div className="project-header">
-                <div className="project-id">
-                  <h2>Archive {item.id}</h2>
+              <div className="expertise-header">
+                <div className="project-label">
+                  <p>Our Expertise</p>
                 </div>
-                <div className="project-whitespace"></div>
-                <div className="project-title">
+                <div className="project-title-group">
                   <h2>{item.title}</h2>
+                  <p className="project-index">{item.index}</p>
                 </div>
-              </div>
-              <div className="project-info">
+                <p className="project-subtitle">{item.subtitle}</p>
+                <p className="project-description">{item.description}</p>
                 <div className="project-url">
-                  <Link href={item.url}>( The Journey )</Link>
+                  <Link href={item.url}>View Projects</Link>
                 </div>
+                <Link
+                  href={item.url}
+                  aria-label={`View ${item.title} project`}
+                />
               </div>
-              <Link
-                href={item.url}
-                className="project-overlay-link"
-                aria-label={`View ${item.title} project`}
-              />
+
+
             </div>
           ))}
         </section>

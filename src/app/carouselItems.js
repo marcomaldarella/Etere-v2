@@ -2,8 +2,8 @@ export const carouselItems = [
   {
     id: "fintech",
     title: "Fintech",
-    bg: "/images/carousel/carousel1.jpeg",
-    main: "/images/carousel/carousel1.jpeg",
+    bg: "/images/carousel/carousel1.jpg",
+    main: "/images/carousel/carousel1.jpg",
     url: "#",
     index: "01 / 03",
     subtitle: "Shaping seamless digital transactions",
@@ -12,8 +12,8 @@ export const carouselItems = [
   {
     id: "healthcare",
     title: "Healthcare",
-    bg: "/images/carousel/carousel2.jpeg",
-    main: "/images/carousel/carousel2.jpeg",
+    bg: "/images/carousel/carousel2.jpg",
+    main: "/images/carousel/carousel2.jpg",
     url: "#",
     index: "02 / 03",
     subtitle: "Empowering modern patient care",
@@ -22,8 +22,8 @@ export const carouselItems = [
   {
     id: "logistics",
     title: "Logistics",
-    bg: "/images/carousel/carousel3.jpeg",
-    main: "/images/carousel/carousel3.jpeg",
+    bg: "/images/carousel/carousel3.jpg",
+    main: "/images/carousel/carousel3.jpg",
     url: "#",
     index: "03 / 03",
     subtitle: "Optimizing end-to-end operations",

@@ -8,8 +8,8 @@
 }
 
 .shuffle-text .word {
-  display: inline-block !important;
-  white-space: nowrap !important;
+  display: inline-block;
+  white-space: nowrap;
   margin-right: 0.25em;
 }
 
@@ -18,8 +18,8 @@
 }
 
 .shuffle-text .char {
-  display: inline-block !important;
+  display: inline-block;
   text-align: center;
   position: relative;
-  white-space: nowrap !important;
+  white-space: nowrap;
 }

@@ -125,11 +125,6 @@ export default function Services() {
         {services.items.map((item, idx) => (
           <div className="serviceItem" key={idx}>
             <div className="serviceLeft">{item.title}</div>
-            <div className="serviceCenter">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none">
-                <circle cx="12" cy="12" r="10" stroke="#000" strokeWidth="2" />
-              </svg>
-            </div>
             <div className="serviceRight">
               <div className="serviceDescription">{item.description}</div>
               <div className="serviceIndex">

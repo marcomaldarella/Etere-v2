@@ -14,9 +14,10 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Marquee from "../Marquee/Marquee";
 import { useContent } from "../../context/ContentContext";
 import { usePathname } from "next/navigation";
-import { useTransition } from "../PageWrapper/PageWrapper";
 import BlurScrollEffect from "./BlurScrollEffect";
+import { useTransition } from "../../hooks/useTransition"
 import "./Hero.css";
+
 
 const START = "polygon(37.5% 10%, 62.5% 10%, 62.5% 90%, 37.5% 90%)";
 const MID = "polygon(10% 10%, 90% 10%, 90% 90%, 10% 90%)";

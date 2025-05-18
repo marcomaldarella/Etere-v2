@@ -32,34 +32,6 @@ export default function ProjectPage() {
         resetScroll({ immediate: true });
     }, [pathname, id]);
 
-    useGSAP(
-        () => {
-            let pinAnimation;
-            const initPinning = () => {
-                if (pinAnimation) pinAnimation.kill();
-                if (window.innerWidth > 900) {
-                    pinAnimation = ScrollTrigger.create({
-                        trigger: ".sticky-archive",
-                        start: "top top",
-                        endTrigger: ".gallery",
-                        end: "bottom bottom",
-                        pin: ".source",
-                        pinSpacing: false,
-                        invalidateOnRefresh: true,
-                    });
-                }
-            };
-            initPinning();
-            const handleResize = () => { initPinning(); };
-            window.addEventListener("resize", handleResize);
-            return () => {
-                if (pinAnimation) pinAnimation.kill();
-                window.removeEventListener("resize", handleResize);
-            };
-        },
-        { scope: container }
-    );
-
     if (!project) {
         router.push('/projects');
         return null;
@@ -73,16 +45,11 @@ export default function ProjectPage() {
                         <ShuffleText as="h1" text={project.title} />
                         <div className="archive-hero-img-wrapper">
                             <div className="archive-hero-img-wrapper-row">
-                                <p>+</p><p>+</p><p>+</p>
-                            </div>
-                            <div className="archive-hero-img-wrapper-row">
                                 <div className="archive-hero-img">
                                     <img src={project.cover} alt={project.title} />
                                 </div>
                             </div>
-                            <div className="archive-hero-img-wrapper-row">
-                                <p>+</p><p>+</p><p>+</p>
-                            </div>
+
                         </div>
                     </div>
                 </section>

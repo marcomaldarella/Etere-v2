@@ -72,12 +72,5 @@ export function useScrollManager() {
         }
     }, [cleanup])
 
-    setTimeout(() => {
-        if (window?.lenis?.start && window?.lenis?.resize) {
-            window.lenis.start();
-            window.lenis.resize();
-        }
-    }, 50);
-
     return { resetScroll, cleanup }
 }

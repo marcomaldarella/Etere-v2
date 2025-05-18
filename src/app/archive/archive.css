@@ -38,26 +38,21 @@
 
 .archive-hero-img {
   width: 100%;
-  height: 400px;
-  clip-path: polygon(
-    0 0,
-    96% 0,
-    100% 14%,
-    100% 100%,
-    70% 100%,
-    2% 100%,
-    0 92%,
-    0% 30%
-  );
-  border-radius: 2rem;
+  max-width: 500px;
+  aspect-ratio: 3 / 4;
+  margin: 0 auto;
+  border-radius: 0.75rem;
+  /* "acuto" ma visibile */
+  overflow: hidden;
 }
 
 .archive-hero-img img {
-  border-radius: 0.5rem;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
+
 
 .sticky-archive {
   position: relative;
@@ -117,7 +112,6 @@
 
 .source-content h4 {
   text-transform: none;
-  font-family: "Nippo";
   font-weight: 400;
   font-size: 2.5rem;
   letter-spacing: -0.05rem;
@@ -158,7 +152,6 @@
 
 .gallery-copy h4 {
   text-transform: none;
-  font-family: "Nippo";
   font-weight: 400;
   font-size: 1.75rem;
   letter-spacing: -0.05rem;
@@ -190,10 +183,10 @@
 }
 
 .pin-spacer {
-  flex-basis: 50% !important;
-  width: 50% !important;
-  margin: 0 !important;
-  padding: 0 !important;
+  flex-basis: 50%;
+  width: 50%;
+  margin: 0;
+  padding: 0;
 }
 
 .next-archive {
@@ -205,24 +198,7 @@
   z-index: 2;
 }
 
-.next-archive-bg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #173937;
-  clip-path: polygon(
-    5% 0,
-    94% 0,
-    100% 15%,
-    100% 85%,
-    95% 100%,
-    5% 100%,
-    0 85%,
-    0 15%
-  );
-}
+
 
 .marquee-archive {
   position: absolute;
@@ -242,27 +218,7 @@
   gap: 1em;
 }
 
-.next-archive-img {
-  width: 35%;
-  height: 300px;
-  clip-path: polygon(
-    0 0,
-    90% 0,
-    100% 15%,
-    100% 80%,
-    100% 100%,
-    5% 100%,
-    0 90%,
-    0% 20%
-  );
-}
 
-.next-archive h2 {
-  width: 50%;
-  font-size: 4rem;
-  text-transform: none;
-  letter-spacing: -0.15rem;
-}
 
 @media (max-width: 900px) {
   .sticky-archive {
@@ -279,33 +235,18 @@
 
   .archive-hero-img,
   .source-img {
-    clip-path: polygon(
-      0 0,
-      92% 0,
-      100% 12%,
-      100% 100%,
-      70% 100%,
-      6% 100%,
-      0 92%,
-      0% 20%
-    );
+    clip-path: polygon(0 0,
+        92% 0,
+        100% 12%,
+        100% 100%,
+        70% 100%,
+        6% 100%,
+        0 92%,
+        0% 20%);
   }
 
   .gallery-images-container {
     gap: 2em;
-  }
-
-  .next-archive-bg {
-    clip-path: polygon(
-      5% 0,
-      95% 0,
-      100% 5%,
-      100% 95%,
-      95% 100%,
-      5% 100%,
-      0 95%,
-      0 5%
-    );
   }
 
   .next-archive-img {

@@ -141,8 +141,7 @@
 .case-studies-items-content .container h3 {
   text-transform: none;
   font-family: "Geist";
-  font-weight: 400;
-  font-size: 4rem;
+  font-size: 3rem;
   margin-bottom: 0.5em;
 }
 
@@ -321,7 +320,7 @@
   overflow: hidden;
 }
 
-.project-header {
+.expertise-header {
   position: absolute;
   top: 50%;
   left: 0%;
@@ -334,22 +333,27 @@
   gap: 1em;
 }
 
-.project-header>div {
+.expertise-header>div {
   flex: 1;
 }
 
-.project-header h2,
+.expertise-header h2,
 .project-url a {
   color: var(--foreground);
 }
 
-.project-header h2 {
+.expertise-header h2 {
   text-transform: none;
   font-size: 4rem;
 }
 
+.expertise-header h2 {
+  color: #fff;
+}
+
 .project-id {
   text-align: center;
+  color: #fff;
 }
 
 .project-url {
@@ -461,7 +465,7 @@
     left: 50%;
   }
 
-  .project-header {
+  .expertise-header {
     width: 100%;
     top: 65%;
     left: 0;
@@ -469,7 +473,7 @@
     flex-direction: column;
   }
 
-  .project-header h2 {
+  .expertise-header h2 {
     font-size: 3rem;
   }
 
@@ -487,6 +491,12 @@
     letter-spacing: -0.2rem;
     font-weight: 600;
   }
+
+  .case-studies-items-content .container h3 {
+    font-size: 3rem;
+  }
+
+
 }
 
 
@@ -519,7 +529,7 @@
 }
 
 /* header con numero e titolo */
-.project-header {
+.expertise-header {
   position: absolute;
   top: 2rem;
   left: 2rem;
