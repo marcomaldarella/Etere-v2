@@ -1,37 +1,35 @@
-name: Build & Deploy React (Next static export) → GoDaddy FTP
+name: Build & Deploy React to GoDaddy (FTP)
 
 on:
   push:
-    branches: [main]          # deploy automatico da main
-  workflow_dispatch:          # avvio manuale
+    branches: [main]          # deploy automatico ad ogni push su main
+  workflow_dispatch:          # o esecuzione manuale
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # 1) Checkout
+      # 1) Checkout del codice
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
-      # 2) Node + cache npm
+      # 2) Setup Node.js (con cache npm)
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
+          cache: npm
 
-      # 3) Install e build
+      # 3) Install dipendenze e build di produzione
       - name: Install dependencies
         run: npm ci
+      - name: Build Next.js app
+        run: npm run build
+      - name: Export static site
+        run: npx next export               # genera la cartella ./out/
 
-      - name: Build (Next.js production)
-        run: npm run build             # crea .next/
-
-      - name: Export → static site
-        run: npx next export -o out    # crea ./out/
-
-      # 4) Deploy via FTP (solo cartella out/)
+      # 4) Deploy via FTP solo la cartella out/
       - name: Upload out/ to GoDaddy
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
@@ -39,11 +37,11 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftp
-          local-dir:  ./out/           # artefatto da caricare
-          server-dir: ./               # cartella di destinazione sul server
-          #dangerous-clean-slate: true # decommenta se vuoi pulizia completa
+          local-dir: './out/'              # artefatto da caricare
+          server-dir: './'                 # cambia se il root non è /
+          # dangerous-clean-slate: true    # sblocca se vuoi pulire prima
 
-      # 5) (facoltativo) aggiorna il branch deploy con i file generati
+      # 5) (opzionale) aggiorna il branch deploy con il contenuto esportato
       - name: Sync main → deploy branch
         if: github.ref == 'refs/heads/main'
         env:
