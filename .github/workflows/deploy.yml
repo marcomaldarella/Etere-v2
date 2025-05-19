@@ -3,54 +3,7 @@ name: Build & Deploy React to GoDaddy (FTP)
 on:
   push:
     branches: [main]          # deploy automatico sui push in main
-  workflow_dispatch:          # esecuzione manuale
-
-jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-
-    steps:
-    # 1) Checkout
-    - uses: actions/checkout@v3
-      with: { fetch-depth: 0 }
-
-    # 2) Node.js + cache npm
-    - uses: actions/setup-node@v4
-      with:
-        node-version: 20
-        cache: 'npm'
-
-    # 3) Install & build
-    - name: Install dependencies
-      run: npm ci
-
-    - name: Build project
-      run: npm run build                 # CRA ⇒ produce build/, Vite ⇒ dist/
-
-    # 4) Determina automaticamente la cartella di output
-    - name: Detect build directory
-      id: detect
-      run: |
-        if [ -d dist ]; then
-          echo "dir=dist" >> $GITHUB_OUTPUT
-        else
-          echo "dir=build" >> $GITHUB_OUTPUT
-        fi
-
-    # 5) Deploy via FTP
-    - name: Upload to GoDaddy
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-      with:
-        server:   ${{ secrets.FTP_HOST }}
-        username: ${{ secrets.FTP_USERNAME }}
-        password: ${{ secrets.FTP_PASSWORD }}
-        protocol: ftp
-        local-dir: name: Build & Deploy static Next.js to GoDaddy
-
-on:
-  push:
-    branches: [main]
-  workflow_dispatch:
+  workflow_dispatch:          # esecuzione manuale dal tab Actions
 
 jobs:
   build-and-deploy:
@@ -62,26 +15,37 @@ jobs:
       with:
         fetch-depth: 0
 
-    # 2) Setup Node + npm cache
+    # 2) Node.js + cache npm
     - uses: actions/setup-node@v4
       with:
         node-version: 20
-        cache: 'npm'
+        cache: npm
 
-    # 3) Install e build (produce ./out/)
+    # 3) Install & build
     - name: Install dependencies
       run: npm ci
-    - name: Build static site
-      run: npm run build
 
-    # 4) Deploy solo la cartella out/
-    - name: Upload out/ to GoDaddy
+    - name: Build project
+      run: npm run build                 # CRA ⇒ build/   |   Vite ⇒ dist/
+
+    # 4) Determina automaticamente la cartella di output
+    - name: Detect build directory
+      id: detect
+      run: |
+        if [ -d dist ]; then
+          echo "dir=dist" >> "$GITHUB_OUTPUT"
+        else
+          echo "dir=build" >> "$GITHUB_OUTPUT"
+        fi
+
+    # 5) Deploy via FTP
+    - name: Upload to GoDaddy
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
         server:   ${{ secrets.FTP_HOST }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         protocol: ftp
-        local-dir: './out/'
-        server-dir: './'                                     # cartella di destinazione sul server
-        # dangerous-clean-slate: true  # scommenta per un wipe completo prima del deploy
+        local-dir: ./${{ steps.detect.outputs.dir }}/   # cartella da inviare
+        server-dir: ./                                 # destinazione sul server
+        # dangerous-clean-slate: true                  # scommenta se vuoi cancellare tutto prima del deploy
