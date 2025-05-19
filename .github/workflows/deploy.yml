@@ -1,46 +1,67 @@
-name: Build & Deploy React to GoDaddy (FTP)
+name: Build & Deploy Next.js (stand-alone) to GoDaddy
 
 on:
   push:
-    branches: [main]          # deploy automatico
-  workflow_dispatch:          # avvio manuale
+    branches: [main]        # auto-deploy su push in main
+  workflow_dispatch:        # esecuzione manuale
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-    # 1) Checkout
+    # 1. Checkout
     - uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
+      with: { fetch-depth: 0 }
 
-    # 2) Node + cache
+    # 2. Node + cache
     - uses: actions/setup-node@v4
       with:
         node-version: 20
-        cache: npm
+        cache: "npm"
 
-    # 3) Install & build (genera ./out/)
-    - name: Install dependencies
+    # 3. Install & build (modalità stand-alone)
+    - name: Install deps
       run: npm ci
 
-    - name: Build Next.js app (static export)
-      run: npm run build          # ‘next build’ ora produce out/
+    - name: Build Next.js (stand-alone)
+      run: |
+        # Assicurati che next.config.mjs contenga:  export default { output: 'standalone' }
+        npm run build
 
-    # 4) Deploy via FTP
-    - name: Upload out/ to GoDaddy
+    # 4. Prepara cartella 'deploy'
+    - name: Package artefacts
+      run: |
+        mkdir deploy
+
+        # copia il server stand-alone ed assets statici
+        cp -r .next/standalone/*  deploy/
+        mkdir -p deploy/.next
+        cp -r .next/static        deploy/.next/
+
+        # cartella public (se esiste)
+        if [ -d public ]; then cp -r public deploy/; fi
+
+        # package.json + lockfile (servono a next start, e a eventuali dipendenze runtime)
+        cp package.json deploy/
+        if [ -f package-lock.json ]; then cp package-lock.json deploy/; fi
+
+        # opzionale: rimuovi dipendenze dev per ridurre spazio
+        cd deploy && npm ci --omit=dev && cd ..
+
+    # 5. Upload via FTP
+    - name: FTP upload to GoDaddy
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
         server:   ${{ secrets.FTP_HOST }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         protocol: ftp
-        local-dir: './out/'       # cartella generata dal build
-        server-dir: './'          # cambialo se il root non è /
-        # dangerous-clean-slate: true
+        local-dir: ./deploy/          # << solo il bundle pronto
+        server-dir: './'  # cartella target
+        # dangerous-clean-slate: true # se vuoi wipe completo prima del deploy
 
-    # 5) (opzionale) aggiorna branch deploy
+    # 6. (opzionale) sincronizza branch deploy
     - name: Sync main → deploy branch
       if: github.ref == 'refs/heads/main'
       env:
@@ -49,6 +70,6 @@ jobs:
         git config --global user.name  "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
         git checkout --orphan deploy
-        git --work-tree out add .
-        git --work-tree out commit -m "CI deploy $(date +'%Y-%m-%d %H:%M')"
+        git --work-tree deploy add .
+        git --work-tree deploy commit -m "CI deploy $(date +'%Y-%m-%d %H:%M')"
         git push --force origin deploy
