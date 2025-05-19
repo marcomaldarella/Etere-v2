@@ -1,75 +1,50 @@
-name: Build & Deploy Next.js (stand-alone) to GoDaddy
+name: Build & Deploy React to GoDaddy (FTP)
 
 on:
   push:
-    branches: [main]        # auto-deploy su push in main
-  workflow_dispatch:        # esecuzione manuale
+    branches: [main]          # deploy automatico sui push in main
+  workflow_dispatch:          # esecuzione manuale
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-    # 1. Checkout
+    # 1) Checkout
     - uses: actions/checkout@v3
       with: { fetch-depth: 0 }
 
-    # 2. Node + cache
+    # 2) Node.js + cache npm
     - uses: actions/setup-node@v4
       with:
         node-version: 20
-        cache: "npm"
+        cache: 'npm'
 
-    # 3. Install & build (modalità stand-alone)
-    - name: Install deps
+    # 3) Install & build
+    - name: Install dependencies
       run: npm ci
 
-    - name: Build Next.js (stand-alone)
+    - name: Build project
+      run: npm run build                 # CRA ⇒ produce build/, Vite ⇒ dist/
+
+    # 4) Determina automaticamente la cartella di output
+    - name: Detect build directory
+      id: detect
       run: |
-        # Assicurati che next.config.mjs contenga:  export default { output: 'standalone' }
-        npm run build
+        if [ -d dist ]; then
+          echo "dir=dist" >> $GITHUB_OUTPUT
+        else
+          echo "dir=build" >> $GITHUB_OUTPUT
+        fi
 
-    # 4. Prepara cartella 'deploy'
-    - name: Package artefacts
-      run: |
-        mkdir deploy
-
-        # copia il server stand-alone ed assets statici
-        cp -r .next/standalone/*  deploy/
-        mkdir -p deploy/.next
-        cp -r .next/static        deploy/.next/
-
-        # cartella public (se esiste)
-        if [ -d public ]; then cp -r public deploy/; fi
-
-        # package.json + lockfile (servono a next start, e a eventuali dipendenze runtime)
-        cp package.json deploy/
-        if [ -f package-lock.json ]; then cp package-lock.json deploy/; fi
-
-        # opzionale: rimuovi dipendenze dev per ridurre spazio
-        cd deploy && npm ci --omit=dev && cd ..
-
-    # 5. Upload via FTP
-    - name: FTP upload to GoDaddy
+    # 5) Deploy via FTP
+    - name: Upload to GoDaddy
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
         server:   ${{ secrets.FTP_HOST }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         protocol: ftp
-        local-dir: ./deploy/          # << solo il bundle pronto
-        server-dir: './'  # cartella target
-        # dangerous-clean-slate: true # se vuoi wipe completo prima del deploy
-
-    # 6. (opzionale) sincronizza branch deploy
-    - name: Sync main → deploy branch
-      if: github.ref == 'refs/heads/main'
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        git config --global user.name  "github-actions[bot]"
-        git config --global user.email "github-actions[bot]@users.noreply.github.com"
-        git checkout --orphan deploy
-        git --work-tree deploy add .
-        git --work-tree deploy commit -m "CI deploy $(date +'%Y-%m-%d %H:%M')"
-        git push --force origin deploy
+        local-dir: ./${{ steps.detect.outputs.dir }}/     # ← cartella prodotta dal build
+        server-dir: './'                                     # cartella di destinazione sul server
+        # dangerous-clean-slate: true  # scommenta per un wipe completo prima del deploy
