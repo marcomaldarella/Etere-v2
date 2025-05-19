@@ -45,6 +45,43 @@ jobs:
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         protocol: ftp
-        local-dir: ./${{ steps.detect.outputs.dir }}/     # ← cartella prodotta dal build
+        local-dir: name: Build & Deploy static Next.js to GoDaddy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1) Checkout
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    # 2) Setup Node + npm cache
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: 'npm'
+
+    # 3) Install e build (produce ./out/)
+    - name: Install dependencies
+      run: npm ci
+    - name: Build static site
+      run: npm run build
+
+    # 4) Deploy solo la cartella out/
+    - name: Upload out/ to GoDaddy
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      with:
+        server:   ${{ secrets.FTP_HOST }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        protocol: ftp
+        local-dir: './out/'
         server-dir: './'                                     # cartella di destinazione sul server
         # dangerous-clean-slate: true  # scommenta per un wipe completo prima del deploy
