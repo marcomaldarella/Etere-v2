@@ -36,7 +36,7 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftp
           local-dir: './build/'                     # ← artefatto da deployare
-          server-dir: ${{ secrets.FTP_SERVER_DIR || '/' }}
+          server-dir: './'
           # dangerous-clean-slate: true            # scommenta se vuoi wipe completo prima del deploy
 
       # -- 5. (Opzionale) allinea il ramo deploy
