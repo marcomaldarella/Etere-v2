@@ -1,41 +1,45 @@
-name: Build & Deploy React to GoDaddy (FTP)
+name: Build & Deploy static site to GoDaddy
 
 on:
   push:
-    branches: [main]          # deploy automatico sui push in main
-  workflow_dispatch:          # esecuzione manuale dal tab Actions
+    branches: [ main ]        # parte ad ogni push su main
+  workflow_dispatch:          # avviabile a mano
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-    # 1) Checkout
+    # 1) Checkout sorgenti
     - uses: actions/checkout@v3
       with:
         fetch-depth: 0
 
-    # 2) Node.js + cache npm
+    # 2) Node + cache npm
     - uses: actions/setup-node@v4
       with:
         node-version: 20
-        cache: npm
+        cache: 'npm'
 
-    # 3) Install & build
+    # 3) Install dipendenze e build
     - name: Install dependencies
       run: npm ci
 
     - name: Build project
-      run: npm run build                 # CRA ⇒ build/   |   Vite ⇒ dist/
+      run: npm run build       # CRA → build/   | Vite → dist/   | Next export → out/
 
-    # 4) Determina automaticamente la cartella di output
-    - name: Detect build directory
+    # 4) Rileva la cartella risultante
+    - name: Detect build dir
       id: detect
       run: |
-        if [ -d dist ]; then
-          echo "dir=dist" >> "$GITHUB_OUTPUT"
+        if [ -d build ]; then
+          echo "DIR=build" >> $GITHUB_OUTPUT
+        elif [ -d dist ]; then
+          echo "DIR=dist" >> $GITHUB_OUTPUT
+        elif [ -d out ]; then
+          echo "DIR=out" >> $GITHUB_OUTPUT
         else
-          echo "dir=build" >> "$GITHUB_OUTPUT"
+          echo "❌ Cartella di build non trovata"; exit 1
         fi
 
     # 5) Deploy via FTP
@@ -46,6 +50,7 @@ jobs:
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         protocol: ftp
-        local-dir: ./${{ steps.detect.outputs.dir }}/   # cartella da inviare
-        server-dir: ./                                 # destinazione sul server
-        # dangerous-clean-slate: true                  # scommenta se vuoi cancellare tutto prima del deploy
+        local-dir: ${{ steps.detect.outputs.DIR }}/
+        server-dir: ./              # o /public_html/ se GoDaddy lo richiede
+        # dangerous-clean-slate: true   # se vuoi svuotare prima
+
