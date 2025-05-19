@@ -5,6 +5,7 @@ import { useContent } from "../../context/ContentContext"
 import { useEffect, useRef } from "react"
 import { usePathname } from "next/navigation"
 import "./projects.css"
+import FinalHero from "../../components/FinalHero/FinalHero"
 import LinkWithScrollReset from "../../components/LinkWithScrollReset"
 import Footer from "../../components/Footer/Footer"
 import gsap from "gsap"
@@ -13,97 +14,72 @@ import { ScrollTrigger } from "gsap/dist/ScrollTrigger"
 export default function ProjectsListPage() {
     const { projects } = useContent()
     const pathname = usePathname()
-    const projectsRef = useRef(null)
-    const gsapContextRef = useRef(null)
+    const containerRef = useRef(null)
+    const gsapCtx = useRef(null)
 
-    // Initialize GSAP and handle scroll behavior
     useEffect(() => {
-        // Register ScrollTrigger
         if (typeof window !== "undefined") {
+            // 1️⃣ assicurati che ScrollTrigger parli con Lenis (.app)
             gsap.registerPlugin(ScrollTrigger)
+            ScrollTrigger.defaults({
+                scroller: document.querySelector(".app"),
+            })
+
+            // 2️⃣ azzera qualunque trigger rimasto (niente pin “fantasma”)
+            ScrollTrigger.getAll().forEach(t => t.kill())
+            ScrollTrigger.refresh()
         }
 
-        // Clean up previous animations
-        if (gsapContextRef.current) {
-            gsapContextRef.current.revert()
-        }
+        // 3️⃣ se c’era un vecchio contesto GSAP di questa pagina, lo ripristiniamo
+        gsapCtx.current?.revert()
 
-        // Ensure smooth scrolling is properly initialized
-        if (typeof window !== "undefined" && window.lenis) {
-            // Stop any ongoing scroll animations
-            window.lenis.stop()
-
-            // Reset scroll position without animation
-            window.scrollTo(0, 0)
-
-            // Resume smooth scrolling with a small delay
-            setTimeout(() => {
-                if (window.lenis) {
-                    window.lenis.start()
-                    window.lenis.resize()
-                }
-            }, 50)
-        }
-
-        // Create a new GSAP context
-        if (projectsRef.current) {
-            gsapContextRef.current = gsap.context(() => {
-                // Stagger animation for project cards
+        // 4️⃣ creiamo il nuovo contesto (fade-in + slide delle card)
+        if (containerRef.current) {
+            gsapCtx.current = gsap.context(() => {
                 gsap.fromTo(
                     ".project-card",
-                    {
-                        y: 30,
-                        opacity: 0,
-                        scale: 0.98,
-                    },
+                    { y: 30, scale: 0.98, autoAlpha: 0 },
                     {
                         y: 0,
-                        opacity: 1,
                         scale: 1,
+                        autoAlpha: 1,
                         stagger: 0.05,
                         duration: 0.8,
                         ease: "power2.out",
                         clearProps: "all",
-                        onComplete: () => {
-                            // Refresh ScrollTrigger after animation completes
-                            ScrollTrigger.refresh()
-                        },
-                    },
+                    }
                 )
-            }, projectsRef)
+            }, containerRef)
         }
 
         return () => {
-            // Clean up GSAP context
-            if (gsapContextRef.current) {
-                gsapContextRef.current.revert()
-            }
-
-            // Clean up ScrollTrigger instances
-            if (typeof window !== "undefined" && ScrollTrigger) {
-                ScrollTrigger.getAll().forEach((trigger) => {
-                    trigger.kill()
-                })
+            // pulizia al cambio pagina
+            gsapCtx.current?.revert()
+            if (typeof window !== "undefined") {
+                ScrollTrigger.getAll().forEach(t => t.kill())
+                ScrollTrigger.refresh()
             }
         }
     }, [pathname])
 
-    if (!projects || !projects.length) {
+    if (!projects?.length) {
         return (
             <div className="projects-container">
-                <div className="projects-grid">
-                    <p>No projects found.</p>
-                </div>
+                <div className="projects-grid"><p>No projects found.</p></div>
             </div>
         )
     }
 
     return (
         <>
-            <div className="projects-container" ref={projectsRef}>
+            <div className="projects-container" ref={containerRef}>
                 <div className="projects-grid">
-                    {projects.map((project) => (
-                        <LinkWithScrollReset key={project.id} href={`/projects/${project.id}`} className="project-card">
+                    {projects.map(project => (
+                        <LinkWithScrollReset
+                            key={project.id}
+                            href={`/projects/${project.id}`}
+                            className="project-card"
+                        >
                             <div className="project-info">
                                 <div className="project-image">
                                     <Image
@@ -111,23 +87,16 @@ export default function ProjectsListPage() {
                                         alt={project.title}
                                         width={800}
                                         height={600}
-                                        priority={true} // Add priority for images above the fold
-                                        loading="eager" // Force eager loading for smoother experience
-                                        style={{
-                                            objectFit: "cover",
-                                            width: "100%",
-                                            height: "auto",
-                                            aspectRatio: "1 / 1",
-                                        }}
+                                        priority
+                                        loading="eager"
+                                        style={{ objectFit: "cover", width: "100%", height: "auto", aspectRatio: "1/1" }}
                                     />
                                 </div>
                                 <h2 className="project-title">{project.title}</h2>
                                 {project.categories && (
                                     <div className="project-tags">
-                                        {project.categories.map((category) => (
-                                            <span key={category} className="project-tag">
-                                                {category}
-                                            </span>
+                                        {project.categories.map(cat => (
+                                            <span key={cat} className="project-tag">{cat}</span>
                                         ))}
                                     </div>
                                 )}
@@ -136,6 +105,7 @@ export default function ProjectsListPage() {
                     ))}
                 </div>
             </div>
+            <FinalHero></FinalHero>
             <Footer />
         </>
     )

@@ -2,25 +2,26 @@
 
 import { useCallback, useEffect } from "react"
 import gsap from "gsap"
-import { ScrollTrigger } from "gsap/dist/ScrollTrigger"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
+
+// ✅ Registra ScrollTrigger in modo sicuro (solo lato client)
+if (typeof window !== "undefined" && !gsap.core.globals().ScrollTrigger) {
+    gsap.registerPlugin(ScrollTrigger)
+}
 
 export function useScrollManager() {
-    // Function to reset scroll position
     const resetScroll = useCallback(({ immediate = false } = {}) => {
         if (typeof window === "undefined") return
 
-        // Register ScrollTrigger
-        gsap.registerPlugin(ScrollTrigger)
-
-        // Stop any ongoing scroll animations
-        if (window.lenis) {
+        // Stop scrolling
+        if (window.lenis?.stop) {
             window.lenis.stop()
         }
 
-        // Kill all ScrollTrigger instances
-        ScrollTrigger.getAll().forEach((trigger) => {
-            trigger.kill()
-        })
+        // Kill all ScrollTriggers
+        if (typeof ScrollTrigger?.getAll === "function") {
+            ScrollTrigger.getAll().forEach(trigger => trigger.kill())
+        }
 
         // Reset scroll position
         if (immediate) {
@@ -28,56 +29,44 @@ export function useScrollManager() {
             document.documentElement.scrollTop = 0
             document.body.scrollTop = 0
         } else {
-            if (window.lenis) {
+            if (window.lenis?.scrollTo) {
                 window.lenis.scrollTo(0, { immediate: true })
             } else {
                 window.scrollTo({ top: 0, behavior: "auto" })
             }
         }
 
-        // Resume smooth scrolling
-        if (window.lenis) {
-            setTimeout(() => {
+        // Restart Lenis and refresh ScrollTrigger in next frame
+        requestAnimationFrame(() => {
+            if (window.lenis?.start) {
                 window.lenis.start()
+            }
+            if (window.lenis?.resize) {
                 window.lenis.resize()
-            }, 50)
-        }
-
-        // Refresh ScrollTrigger
-        setTimeout(() => {
-            ScrollTrigger.refresh()
-        }, 100)
+            }
+            if (typeof ScrollTrigger?.refresh === "function") {
+                ScrollTrigger.refresh(true)
+            }
+        })
     }, [])
 
-    // Cleanup function
     const cleanup = useCallback(() => {
         if (typeof window === "undefined") return
 
-        // Clean up GSAP ScrollTrigger instances
-        if (window.ScrollTrigger) {
-            ScrollTrigger.getAll().forEach((trigger) => {
-                trigger.kill()
-            })
+        if (typeof ScrollTrigger?.getAll === "function") {
+            ScrollTrigger.getAll().forEach(trigger => trigger.kill())
+        }
 
-            if (ScrollTrigger.refresh) {
-                ScrollTrigger.refresh()
-            }
+        if (typeof ScrollTrigger?.refresh === "function") {
+            ScrollTrigger.refresh(true)
         }
     }, [])
 
-    // Clean up on unmount
     useEffect(() => {
         return () => {
             cleanup()
         }
     }, [cleanup])
-
-    setTimeout(() => {
-        if (window?.lenis?.start && window?.lenis?.resize) {
-            window.lenis.start();
-            window.lenis.resize();
-        }
-    }, 50);
 
     return { resetScroll, cleanup }
 }

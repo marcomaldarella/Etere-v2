@@ -24,9 +24,6 @@
     color: inherit;
 }
 
-.project-card:hover {
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-}
 
 .project-image {
     width: 100%;

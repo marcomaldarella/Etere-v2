@@ -15,24 +15,25 @@ import Marquee from "../Marquee/Marquee";
 import { useContent } from "../../context/ContentContext";
 import { usePathname } from "next/navigation";
 import BlurScrollEffect from "./BlurScrollEffect";
-import { useTransition } from "../../hooks/useTransition"
+import { useTransition } from "../../hooks/useTransition";
 import "./Hero.css";
-
 
 const START = "polygon(37.5% 10%, 62.5% 10%, 62.5% 90%, 37.5% 90%)";
 const MID = "polygon(10% 10%, 90% 10%, 90% 90%, 10% 90%)";
 const END = "polygon(0 0, 100% 0, 100% 100%, 0 100%)";
 
+// Calendly popup URL (una sola variabile da cambiare in futuro)
+const CALENDLY_URL = "https://calendly.com/pier-eterestudio/30min";
+
 export default function Hero() {
-  /* ‑‑‑ context & router info ‑‑‑ */
+  /* --- context & router info --- */
   const { home } = useContent();
   const pathname = usePathname();
   const { isTransitioning } = useTransition();
-
   if (!home?.hero) return null;
   const { hero } = home;
 
-  /* ‑‑‑ refs & state ‑‑‑ */
+  /* --- refs & state --- */
   const heroRef = useRef(null);
   const txtBoxRef = useRef(null);
   const blurFxRef = useRef(null);
@@ -43,30 +44,44 @@ export default function Hero() {
   const [isActive, setIsActive] = useState(false);
   const [animationProgress, setAnimProgress] = useState(0);
 
-  /* ‑‑‑ utils ‑‑‑ */
+  /* --- Calendly script loader (una sola volta) --- */
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    // Se il widget non è già stato caricato, iniettiamo css + js
+    if (!window.Calendly) {
+      const css = document.createElement("link");
+      css.href = "https://assets.calendly.com/assets/external/widget.css";
+      css.rel = "stylesheet";
+      document.head.appendChild(css);
+
+      const js = document.createElement("script");
+      js.src = "https://assets.calendly.com/assets/external/widget.js";
+      js.async = true;
+      document.body.appendChild(js);
+    }
+  }, []);
+
+  /* --- utils: cleanup GSAP & effetti --- */
   const cleanup = () => {
     setupTimeoutRef.current && clearTimeout(setupTimeoutRef.current);
-
     scrollRef.current?.kill();
     scrollRef.current = null;
-
     gsapCtxRef.current?.revert();
     gsapCtxRef.current = null;
-
     blurFxRef.current?.destroy();
     blurFxRef.current = null;
   };
 
-  /* ‑‑‑ build animazioni ‑‑‑ */
+  /* --- build animazioni --- */
   const build = () => {
     if (!heroRef.current || isTransitioning) return;
-
     gsap.registerPlugin(ScrollTrigger);
 
     gsapCtxRef.current = gsap.context(() => {
       const section = heroRef.current;
 
-      /* 1. Disegno titolo con span */
+      /* 1. Disegno titolo con <span> */
       const titleEl = section.querySelector(".hero-title");
       if (titleEl) {
         titleEl.innerHTML = hero.title
@@ -79,7 +94,7 @@ export default function Hero() {
           .join(" ");
       }
 
-      /* 2. Elementi DOM utili  */
+      /* 2. Elementi DOM utili */
       const mask = section.querySelector(".hero-img");
       const img = mask?.querySelector("video, img");
       const blurEl = section.querySelector(".blur-word");
@@ -88,15 +103,14 @@ export default function Hero() {
       const cta = section.querySelector(".cta-button");
       const mq = section.querySelector(".marquee");
       const logos = section.querySelectorAll(".hero-logos img");
-
       if (!mask || !img || !blurEl || !lines.length || !txt || !cta || !mq) {
         return;
       }
 
-      /* 3. Blur effect – viene distrutto nel cleanup */
+      /* 3. Blur effect */
       blurFxRef.current = new BlurScrollEffect(blurEl);
 
-      /* 4. Preset iniziali */
+      /* 4. Reset iniziali */
       gsap.set([mask, img, blurEl, lines, txt, cta, logos], { clearProps: "all" });
       gsap.set(mq, { autoAlpha: 1 });
       gsap.set(mask, { "--clip": START, opacity: 0, scaleY: .95, y: 20 });
@@ -106,12 +120,12 @@ export default function Hero() {
       gsap.set(cta, { autoAlpha: 0, scale: 0.8 });
       gsap.set(logos, { autoAlpha: 0, y: 30 });
 
-      /* 5. Intro non scrollata */
+      /* 5. Intro senza scroll */
       gsap.timeline()
         .to(mask, { opacity: 1, scaleY: 1, y: 0, duration: 2, ease: "power1.out" })
         .to(blurEl, { filter: "blur(0px)", duration: 1.2, ease: "power2.out" }, "<");
 
-      /* 6. Timeline scroll/trigger */
+      /* 6. Timeline on-scroll */
       const tl = gsap.timeline({
         paused: !isActive,
         onUpdate: () => setAnimProgress(tl.progress()),
@@ -127,7 +141,7 @@ export default function Hero() {
         .to(cta, { autoAlpha: 1, scale: 1, duration: .6, ease: "back.out(1.7)" }, ">0.2")
         .to(logos, { autoAlpha: 1, y: 0, duration: .6, stagger: .2 }, ">0.15");
 
-      /* 7. ScrollTrigger (solo se la sezione NON è gestita da PinSection) */
+      /* 7. ScrollTrigger */
       if (!isActive) {
         scrollRef.current = ScrollTrigger.create({
           trigger: section,
@@ -149,11 +163,10 @@ export default function Hero() {
       }
     }, heroRef);
 
-    /* refresh dopo layout shift */
     setTimeout(() => ScrollTrigger.refresh(), 100);
   };
 
-  /* ‑‑‑ sezione attiva (PinSection) ‑‑‑ */
+  /* sezione attiva (PinSection) */
   useEffect(() => {
     const onActivate = (e) => {
       if (e.detail.id === "hero") {
@@ -170,7 +183,7 @@ export default function Hero() {
     return () => window.removeEventListener("sectionActivated", onActivate);
   }, []);
 
-  /* ‑‑‑ wheel → comunica a PinSection quando finiamo anim ‑‑‑ */
+  /* wheel → comunica a PinSection quando finiamo anim */
   useEffect(() => {
     if (!isActive || !heroRef.current) return;
     const wheel = (e) => {
@@ -183,17 +196,16 @@ export default function Hero() {
       }
     };
     heroRef.current.addEventListener("wheel", wheel);
-    return () => heroRef.current?.removeEventListener("wheel", wheel);
+    return () => heroRef.current.removeEventListener("wheel", wheel);
   }, [isActive, animationProgress]);
 
-  /* ‑‑‑ rebuild on route‑change / data‑change ‑‑‑ */
   useLayoutEffect(() => {
     cleanup();
     setupTimeoutRef.current = setTimeout(build, 50);
     return cleanup;
   }, [pathname, hero.title, isTransitioning]);
 
-  /* ‑‑‑ RENDER ‑‑‑ */
+  /* --- RENDER --- */
   return (
     <section
       ref={heroRef}
@@ -227,7 +239,15 @@ export default function Hero() {
         </div>
       </div>
 
-      <button className="cta-button">{hero.cta}</button>
+      {/* CTA → apre Calendly */}
+      <button
+        className="cta-button"
+        onClick={() =>
+          window.Calendly?.initPopupWidget?.({ url: CALENDLY_URL })
+        }
+      >
+        {hero.cta}
+      </button>
 
       {isActive && animationProgress > 0.95 && (
         <div className="scroll-indicator">

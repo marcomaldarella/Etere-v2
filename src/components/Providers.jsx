@@ -1,41 +1,52 @@
+// src/components/Providers.jsx
 "use client";
 
 import { ContentProvider } from "../context/ContentContext";
 import { ReactLenis } from "lenis/react";
 import Navbar from "../components/Navbar/Navbar";
-import { useRef, useEffect } from "react";
+import { useRef, useLayoutEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 
 export default function Providers({ children }) {
-  const lenisRef = useRef();
+  const lenisRef = useRef(null);
 
-  // Initialize GSAP and ScrollTrigger once
-  useEffect(() => {
-    if (typeof window === "undefined") return;
+  useLayoutEffect(() => {
+    if (typeof window === "undefined" || !lenisRef.current) return;
 
-    // Register ScrollTrigger plugin
     gsap.registerPlugin(ScrollTrigger);
 
-    // Set up ScrollTrigger defaults
-    ScrollTrigger.defaults({
-      scroller: document.querySelector(".app"),
-      markers: false,
+    // nodo che Lenis controlla
+    const appScroller =
+      document.querySelector(".app") || lenisRef.current.rootElement;
+    if (!appScroller) return; // sicurezza
+
+    // esponi Lenis globalmente
+    window.lenis = lenisRef.current;
+
+    // proxy GSAP ⇄ Lenis
+    ScrollTrigger.scrollerProxy(appScroller, {
+      scrollTop(v) {
+        return arguments.length
+          ? window.lenis.scrollTo(v, { immediate: true })
+          : window.lenis.scroll;
+      },
+      getBoundingClientRect() {
+        return { top: 0, left: 0, width: innerWidth, height: innerHeight };
+      },
+      pinType: appScroller.style?.transform ? "transform" : "fixed",
     });
 
-    return () => {
-      // Clean up on unmount
-      if (typeof window !== "undefined") {
-        // Kill all ScrollTrigger instances
-        ScrollTrigger.getAll().forEach(trigger => {
-          trigger.kill();
-        });
+    // aggiorna GSAP ad ogni tick di Lenis (se on/off esistono)
+    window.lenis?.on?.("scroll", ScrollTrigger.update);
 
-        // Destroy Lenis
-        if (lenisRef.current) {
-          lenisRef.current.destroy();
-        }
-      }
+    // defaults per tutti i trigger
+    ScrollTrigger.defaults({ scroller: appScroller, markers: false });
+
+    return () => {
+      window.lenis?.off?.("scroll", ScrollTrigger.update);
+      ScrollTrigger.getAll().forEach(t => t.kill());
+      lenisRef.current?.destroy();
     };
   }, []);
 
@@ -47,7 +58,7 @@ export default function Providers({ children }) {
         className="app"
         options={{
           duration: 1.5,
-          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          easing: t => 1 - Math.pow(2, -10 * t),
           smooth: true,
           smoothTouch: false,
           touchMultiplier: 1.5,

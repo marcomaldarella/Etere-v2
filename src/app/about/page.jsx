@@ -5,6 +5,7 @@ import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import styles from "./about.module.css"
 import Footer from "../../components/Footer/Footer";
+import FinalHero from "../../components/FinalHero/FinalHero";
 
 if (typeof window !== "undefined") {
     gsap.registerPlugin(ScrollTrigger)
@@ -20,7 +21,7 @@ const team = [
     {
         name: "Pierluigi Raffone",
         role: "CEO",
-        image: "/images/team/team-1.jpg",
+        image: "/images/team/team-3.jpg",
         background: ["Tech Lead in 4+ Start-Ups and Agencies"],
         education: [
             "Researcher - University of California, Berkeley",
@@ -30,14 +31,14 @@ const team = [
     {
         name: "Andrea Sanvido",
         role: "Business Development",
-        image: "/images/team/team-2.jpg",
+        image: "/images/team/team-1.jpg",
         background: ["Product Strategy - Revolut"],
         education: ["Master in Finance - ESCP"],
     },
     {
         name: "Giuseppe Maiarù",
         role: "CTO",
-        image: "/images/team/team-3.jpg",
+        image: "/images/team/team-2.jpg",
         background: ["Tech Lead"],
         education: [],
     },
@@ -275,6 +276,7 @@ export default function AboutPage() {
                     ))}
                 </div>
             </section>
+            <FinalHero></FinalHero>
             <Footer />
         </main>
     )
