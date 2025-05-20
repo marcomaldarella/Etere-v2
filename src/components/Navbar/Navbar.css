@@ -185,7 +185,7 @@
 .navbar-col:nth-of-type(2) .navbar-sub-col {
   background-color: #fff;
   padding: 4px;
-  border-radius: 8px;
+  border-radius: 1.1em;
 }
 
 .nav-link a:hover {
@@ -201,4 +201,11 @@
         rgba(255, 255, 255, 0.01) 20%,
         rgba(255, 255, 255, 0) 100%);
   }
+
+
+  .navbar-col:nth-of-type(2) .navbar-sub-col {
+
+    margin-bottom: 12px;
+  }
+
 }
