@@ -50,31 +50,35 @@ function AnimatedCounter({ value, suffix }) {
 
     useEffect(() => {
         if (typeof window === "undefined") return
-
         const el = counterRef.current
         if (!el) return
 
-        const animate = () => {
-            const obj = { val: 0 }
-            gsap.to(obj, {
-                val: value,
-                duration: 2.5,
-                ease: "power2.out",
-                onUpdate() {
-                    setCount(Math.floor(obj.val))
-                },
-            })
-        }
+        let observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    // Quando entra in viewport, parte animazione
+                    const obj = { val: 0 }
+                    gsap.to(obj, {
+                        val: value,
+                        duration: 2.5,
+                        ease: "power2.out",
+                        onUpdate() {
+                            setCount(Math.floor(obj.val))
+                        },
+                    })
+                    observer.disconnect() // smetti di osservare dopo la prima animazione
+                }
+            },
+            {
+                rootMargin: "0px 0px -150px 0px", // anticipa di 150px prima che l’elemento sia visibile
+                threshold: 0.01, // anche un 1% visibile fa partire l’animazione
+            }
+        )
 
-        const trigger = ScrollTrigger.create({
-            trigger: el,
-            start: "top 80%",
-            once: true,
-            onEnter: animate,
-        })
+        observer.observe(el)
 
         return () => {
-            trigger.kill()
+            observer.disconnect()
         }
     }, [value])
 
@@ -277,7 +281,6 @@ export default function AboutPage() {
                 </div>
             </section>
             <FinalHero></FinalHero>
-            <Footer />
         </main>
     )
 }

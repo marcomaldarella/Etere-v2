@@ -16,7 +16,7 @@
 .services-entry {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: flex-start;
   padding-bottom: 48px;
 }
 
@@ -81,7 +81,7 @@
 }
 
 .serviceIndex {
-  align-self: flex-end;
+  align-self: flex-start;
   color: #000;
   opacity: 50%;
 }
@@ -215,4 +215,12 @@
   60% {
     transform: rotate(45deg) translateY(5px);
   }
+}
+
+.relatedTitle {
+  font-size: 5rem;
+  letter-spacing: -0.4rem;
+  font-weight: 600;
+  color: #000;
+  line-height: 0.8em;
 }

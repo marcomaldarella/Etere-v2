@@ -141,7 +141,6 @@ const ArchivePage = () => {
           </div>
         </section>
 
-        <Footer />
       </div>
     </ReactLenis>
   );

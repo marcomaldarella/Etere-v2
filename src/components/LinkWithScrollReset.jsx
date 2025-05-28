@@ -1,33 +1,37 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { useRouter } from "next/navigation"
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function LinkWithScrollReset({ href, children, className }) {
-    const router = useRouter()
+    const router = useRouter();
 
-    const handleClick = (e) => {
-        e.preventDefault()
+    const handleClick = async (e) => {
+        e.preventDefault();
 
-        // Stop any ongoing scroll animations
-        if (typeof window !== "undefined" && window.lenis) {
-            window.lenis.stop()
-        }
+        // Ferma Lenis per evitare scroll coasting
+        window.lenis?.stop();
 
-        // Clean up ScrollTrigger instances before navigation
-        if (typeof window !== "undefined" && window.ScrollTrigger) {
-            window.ScrollTrigger.getAll().forEach((trigger) => {
-                trigger.kill()
-            })
-        }
+        // Naviga alla nuova pagina
+        router.push(href);
 
-        // Navigate to the new page
-        router.push(href)
-    }
+        // Delay per aspettare che il DOM cambi (App Router workaround)
+        setTimeout(() => {
+            // Reset scroll nativo
+            window.scrollTo(0, 0);
+            // Reset scroll Lenis
+            window.lenis?.scrollTo(0, { immediate: true });
+
+            // Riavvia Lenis dopo frame
+            requestAnimationFrame(() => {
+                window.lenis?.start();
+            });
+        }, 50); // Puoi anche alzare a 100ms se il contenuto è pesante
+    };
 
     return (
         <Link href={href} onClick={handleClick} className={className}>
             {children}
         </Link>
-    )
+    );
 }

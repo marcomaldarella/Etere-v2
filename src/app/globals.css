@@ -16,10 +16,13 @@
 html,
 body {
   width: 100%;
-  height: 100%;
+  /* CAMBIATO: da height: 100% a min-height per permettere scroll completo */
+  min-height: 100%;
   background-color: var(--background);
   color: var(--foreground);
-  font-family: 'Geist', sans-serif;
+  font-family: "Geist", sans-serif;
+  /* AGGIUNTO: per evitare overflow orizzontale */
+  overflow-x: hidden;
 }
 
 img {
@@ -36,7 +39,7 @@ p,
 a,
 .container,
 section {
-  font-family: 'Geist', sans-serif;
+  font-family: "Geist", sans-serif;
   color: var(--foreground);
 }
 
@@ -89,6 +92,61 @@ a {
 section {
   position: relative;
   z-index: 1;
+}
+
+/* Layout Structure */
+.app {
+  position: relative;
+  /* CAMBIATO: da min-height a auto per permettere crescita */
+  min-height: 100vh;
+  overflow-x: hidden;
+  /* AGGIUNTO: per debug, rimuovi se non serve */
+  /* border: 2px solid red; */
+}
+
+.main-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  position: relative;
+  /* AGGIUNTO: per permettere crescita oltre viewport */
+  width: 100%;
+}
+
+.main-content {
+  flex: 1;
+  position: relative;
+  z-index: 1;
+  /* AUMENTATO: più spazio per assicurarsi che il footer sia raggiungibile */
+  padding-bottom: 4rem;
+}
+
+/* Footer positioning */
+footer {
+  position: relative;
+  z-index: 2;
+  margin-top: auto;
+  /* AUMENTATO: più padding per essere sicuri */
+  padding-bottom: 4rem;
+  /* AGGIUNTO: per debug, rimuovi se non serve */
+  /* background: yellow; */
+}
+
+/* Prevent scroll restoration */
+html {
+  scroll-behavior: auto !important;
+}
+
+.archive {
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+/* Ensure content starts from top */
+.project-hero-header {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 @media (max-width: 900px) {

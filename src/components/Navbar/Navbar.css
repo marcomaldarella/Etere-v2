@@ -59,7 +59,6 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  position: relative;
   z-index: 2;
   mix-blend-mode: difference;
 }
@@ -96,13 +95,13 @@
 
 .nav-link:hover,
 .nav-link:focus {
-  background: #e5e5e5;
   color: #000;
   outline: none;
 }
 
 .nav-link.active {
   background: #f2f2f2;
+  opacity: 30%;
   color: #000;
   font-weight: 500;
 }
@@ -171,15 +170,14 @@
 
 .navbar {
   pointer-events: none;
-  /* blocca tutto tranne i figli sbloccati */
 }
 
+/* blocca tutto tranne i figli sbloccati */
 
 .logo-link,
 .navbar-sub-col.nav-items,
 .nav-link {
   pointer-events: auto;
-  /* riattiva click */
 }
 
 .navbar-col:nth-of-type(2) .navbar-sub-col {
@@ -202,10 +200,69 @@
         rgba(255, 255, 255, 0) 100%);
   }
 
-
   .navbar-col:nth-of-type(2) .navbar-sub-col {
-
     margin-bottom: 12px;
   }
+}
 
+/* ========================= */
+/* === AGGIUNTE “PASTIGLIA” === */
+/* ========================= */
+
+.navbar-sub-col.nav-items {
+  position: relative;
+}
+
+/* base per l’indicatore */
+
+.nav-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.08);
+  /* colore tenue — cambia a piacere */
+  border-radius: 1.2em;
+  transition: transform 0.3s ease, width 0.3s ease;
+  pointer-events: none;
+  z-index: 0;
+  /* dietro ai link */
+}
+
+.nav-link {
+  position: relative;
+  z-index: 1;
+}
+
+/* sopra l’indicatore */
+
+/* === LOGO WRAPPER (scorre con la pagina) === */
+.logo-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 2em;
+  /* stesso padding che aveva nella navbar */
+  mix-blend-mode: difference;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.logo-wrapper .logo-img {
+  width: 120px;
+  height: auto;
+  display: block;
+}
+
+/* ---------- logo che svanisce quando si scorre ---------- */
+.logo-img {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  opacity: 1;
+}
+
+.navbar.scrolled .logo-img {
+  opacity: 0;
+  pointer-events: none;
+  /* clic ignorato finché è invisibile */
+  transform: scale(0.9);
 }

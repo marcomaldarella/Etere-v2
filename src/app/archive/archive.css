@@ -233,17 +233,7 @@
     padding-left: 2em;
   }
 
-  .archive-hero-img,
-  .source-img {
-    clip-path: polygon(0 0,
-        92% 0,
-        100% 12%,
-        100% 100%,
-        70% 100%,
-        6% 100%,
-        0 92%,
-        0% 20%);
-  }
+
 
   .gallery-images-container {
     gap: 2em;

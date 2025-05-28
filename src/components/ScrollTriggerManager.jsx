@@ -7,6 +7,12 @@ export default function ScrollTriggerManager({ children }) {
   const router = useRouter();
 
   useEffect(() => {
+    return () => {
+      ScrollTrigger.getAll().forEach(t => t.kill());
+    };
+  }, [pathname]);
+
+  useEffect(() => {
     const handleRouteChange = () => {
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     };

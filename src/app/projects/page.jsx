@@ -1,112 +1,108 @@
-"use client"
+"use client";
 
-import Image from "next/image"
-import { useContent } from "../../context/ContentContext"
-import { useEffect, useRef } from "react"
-import { usePathname } from "next/navigation"
-import "./projects.css"
-import FinalHero from "../../components/FinalHero/FinalHero"
-import LinkWithScrollReset from "../../components/LinkWithScrollReset"
-import Footer from "../../components/Footer/Footer"
-import gsap from "gsap"
-import { ScrollTrigger } from "gsap/dist/ScrollTrigger"
+import Image from "next/image";
+import Link from "next/link";
+import { useContent } from "../../context/ContentContext";
+import { useLayoutEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+
+import "./projects.css";
+import FinalHero from "../../components/FinalHero/FinalHero";
+import Footer from "../../components/Footer/Footer";
 
 export default function ProjectsListPage() {
-    const { projects } = useContent()
-    const pathname = usePathname()
-    const containerRef = useRef(null)
-    const gsapCtx = useRef(null)
+    const { projects } = useContent();
+    const pathname = usePathname();
+    const wrapRef = useRef(null);
+    const ctxRef = useRef(null);
 
-    useEffect(() => {
-        if (typeof window !== "undefined") {
-            // 1️⃣ assicurati che ScrollTrigger parli con Lenis (.app)
-            gsap.registerPlugin(ScrollTrigger)
-            ScrollTrigger.defaults({
-                scroller: document.querySelector(".app"),
-            })
+    useLayoutEffect(() => {
+        if (typeof window === "undefined") return;
 
-            // 2️⃣ azzera qualunque trigger rimasto (niente pin “fantasma”)
-            ScrollTrigger.getAll().forEach(t => t.kill())
-            ScrollTrigger.refresh()
+        gsap.registerPlugin(ScrollTrigger);
+        ScrollTrigger.defaults({ scroller: document.querySelector(".app") });
+
+        if (window.lenis?.start) {
+            window.lenis.start();
         }
 
-        // 3️⃣ se c’era un vecchio contesto GSAP di questa pagina, lo ripristiniamo
-        gsapCtx.current?.revert()
+        ctxRef.current?.revert();
+        ScrollTrigger.getAll().forEach(t => t.kill());
 
-        // 4️⃣ creiamo il nuovo contesto (fade-in + slide delle card)
-        if (containerRef.current) {
-            gsapCtx.current = gsap.context(() => {
-                gsap.fromTo(
-                    ".project-card",
-                    { y: 30, scale: 0.98, autoAlpha: 0 },
-                    {
-                        y: 0,
-                        scale: 1,
-                        autoAlpha: 1,
-                        stagger: 0.05,
-                        duration: 0.8,
-                        ease: "power2.out",
-                        clearProps: "all",
-                    }
-                )
-            }, containerRef)
+        if (wrapRef.current) {
+            ctxRef.current = gsap.context(() => {
+                gsap.to(".project-card", {
+                    y: 0,
+                    autoAlpha: 1,
+                    stagger: 0.06,
+                    duration: 0.6,
+                    ease: "power2.out",
+                    immediateRender: false,
+                });
+            }, wrapRef);
         }
+
+        ScrollTrigger.refresh();
 
         return () => {
-            // pulizia al cambio pagina
-            gsapCtx.current?.revert()
-            if (typeof window !== "undefined") {
-                ScrollTrigger.getAll().forEach(t => t.kill())
-                ScrollTrigger.refresh()
-            }
-        }
-    }, [pathname])
+            ctxRef.current?.revert();
+            ScrollTrigger.getAll().forEach(t => t.kill());
+            ScrollTrigger.refresh();
+        };
+    }, [pathname]);
 
     if (!projects?.length) {
         return (
             <div className="projects-container">
-                <div className="projects-grid"><p>No projects found.</p></div>
+                <div className="projects-grid">
+                    <p>No projects found.</p>
+                </div>
             </div>
-        )
+        );
     }
 
     return (
         <>
-            <div className="projects-container" ref={containerRef}>
+            <div className="projects-container" ref={wrapRef}>
                 <div className="projects-grid">
-                    {projects.map(project => (
-                        <LinkWithScrollReset
-                            key={project.id}
-                            href={`/projects/${project.id}`}
-                            className="project-card"
-                        >
+                    {projects.map((p) => (
+                        <Link key={p.id} href={`/projects/${p.id}`} className="project-card">
                             <div className="project-info">
                                 <div className="project-image">
                                     <Image
-                                        src={project.cover || "/placeholder.svg"}
-                                        alt={project.title}
+                                        src={p.cover || "/placeholder.svg"}
+                                        alt={p.title}
                                         width={800}
                                         height={600}
                                         priority
-                                        loading="eager"
-                                        style={{ objectFit: "cover", width: "100%", height: "auto", aspectRatio: "1/1" }}
+                                        unoptimized
+                                        style={{
+                                            objectFit: "cover",
+                                            width: "100%",
+                                            height: "auto",
+                                            aspectRatio: "1/1",
+                                        }}
                                     />
                                 </div>
-                                <h2 className="project-title">{project.title}</h2>
-                                {project.categories && (
+                                <h2 className="project-title">{p.title}</h2>
+                                {p.categories && (
                                     <div className="project-tags">
-                                        {project.categories.map(cat => (
-                                            <span key={cat} className="project-tag">{cat}</span>
+                                        {p.categories.map((cat) => (
+                                            <span key={cat} className="project-tag">
+                                                {cat}
+                                            </span>
                                         ))}
                                     </div>
                                 )}
                             </div>
-                        </LinkWithScrollReset>
+                        </Link>
                     ))}
                 </div>
             </div>
-            <FinalHero></FinalHero>
-            <Footer />
+
+            <FinalHero />
         </>
-    )
+    );
 }

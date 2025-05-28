@@ -1,7 +1,11 @@
+// jsconfig.json  (alla radice del progetto)
 {
   "compilerOptions": {
+    "baseUrl": ".", // ← DÌ a TypeScript/Next qual è la root
     "paths": {
-      "@/*": ["./src/*"]
-    }
+      "@/*": [
+        "src/*"
+      ]
+    } // niente ./ davanti
   }
 }

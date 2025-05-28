@@ -1,7 +1,9 @@
 "use client";
+
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import "./Marquee.css";
+import content from "../../data/content.json"; // ← aggiorna il path se necessario
 
 const ANIMATION_DURATION = 15;
 
@@ -10,18 +12,20 @@ const Marquee = () => {
   const animationRef = useRef(null);
   const directionRef = useRef(-1);
 
+  const text = content.home.hero.marquee;
+
   useEffect(() => {
     const wrapper = wrapperRef.current;
     if (!wrapper) return;
 
-    const content = wrapper.children[0];
+    const contentEl = wrapper.children[0];
 
     for (let i = 0; i < 3; i++) {
-      const clone = content.cloneNode(true);
+      const clone = contentEl.cloneNode(true);
       wrapper.appendChild(clone);
     }
 
-    const singleWidth = content.offsetWidth;
+    const singleWidth = contentEl.offsetWidth;
     const totalWidth = singleWidth * 2;
 
     const createAnimation = () => {
@@ -96,10 +100,7 @@ const Marquee = () => {
     <div className="marquee">
       <div className="marquee-wrapper" ref={wrapperRef}>
         <div className="marquee-content">
-          <p>
-            FLUTTER & NATIVE DEVELOPMENT
-
-          </p>
+          <p>{text}</p>
         </div>
       </div>
     </div>

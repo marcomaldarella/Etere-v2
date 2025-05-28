@@ -20,7 +20,7 @@
 
 .marquee-wrapper {
   display: flex;
-
+  text-transform: uppercase;
   will-change: transform;
 }
 
