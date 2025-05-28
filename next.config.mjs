@@ -1,8 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',      // static export
   images: {
-    unoptimized: true,   // disattiva l’Image Optimization API
+    unoptimized: true, // opzionale se non usi il servizio Image Optimization di Vercel
   },
 };
 
