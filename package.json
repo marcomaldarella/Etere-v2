@@ -5,8 +5,10 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:static": "EXPORT=true next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "deploy:both": "node deploy-both.js"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
