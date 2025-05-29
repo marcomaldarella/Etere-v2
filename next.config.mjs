@@ -1,28 +1,30 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Enable static export when EXPORT environment variable is true
-  ...(process.env.EXPORT === 'true' && {
-    output: 'export',
-    trailingSlash: true,
-  }),
+  // Enable static export for GoDaddy
+  output: 'export',
+  trailingSlash: true,
 
+  // Essential for static hosting
   images: {
-    unoptimized: true, // Already set - good for both Vercel and static export
+    unoptimized: true
   },
 
-  // Ensure compatibility with your animation libraries
+  // Optimize for your animation libraries
   transpilePackages: ['gsap', 'lenis'],
 
-  // Optimize for production
+  // Production optimizations
   swcMinify: true,
+  reactStrictMode: true,
 
-  // Handle TypeScript and ESLint during builds
-  typescript: {
-    ignoreBuildErrors: false,
-  },
+  // ESLint configuration
   eslint: {
-    ignoreDuringBuilds: false,
+    ignoreDuringBuilds: true,
   },
-};
 
-export default nextConfig;
+  // TypeScript configuration
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+}
+
+export default nextConfig

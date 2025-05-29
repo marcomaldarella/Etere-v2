@@ -68,6 +68,7 @@
             "id": "operations-platform",
             "title": "Taxi Operation Platform",
             "subtitle": "Real-time taxi and ride-sharing coordination.",
+            "summary": "Revolutionizing taxi services with real-time bookings and efficient ride-sharing and many other features.",
             "cover": "/images/home/case-study-3.jpg",
             "tag": "Flutter App",
             "categories": [
@@ -91,6 +92,7 @@
             "id": "graphic-design-app",
             "title": "Graphic Design App",
             "subtitle": "Digital sketching tool for fashion houses with Apple Pencil integration.",
+            "summary": "Empowering fashion designers with intuitive digital sketching and real-time collaboration tools.",
             "cover": "/images/home/case-study-2.jpg",
             "tag": "iPad App",
             "categories": [
@@ -115,6 +117,7 @@
             "id": "digital-banking-app-intesa",
             "title": "Digital Banking App",
             "subtitle": "Secure mobile banking and insurance access.",
+            "summary": "A secure and high-performance mobile platform for comprehensive financial services.",
             "cover": "/images/home/case-study-1.jpg",
             "tag": "Native App",
             "categories": [
@@ -139,6 +142,7 @@
             "id": "dealer-management-portal",
             "title": "Dealer Management Portal",
             "subtitle": "A custom supply chain management platform for automotive dealers.",
+            "summary": "Streamlining automotive dealer operations with a unified supply chain management platform.",
             "cover": "/images/home/case-study-5.jpg",
             "tag": "Flutter App",
             "categories": [
@@ -162,6 +166,7 @@
             "id": "vehicle-rental-portal",
             "title": "Vehicle Rental Portal",
             "subtitle": "Distributed platform for vehicle rentals and telematics.",
+            "summary": "An integrated platform for efficient vehicle rentals and advanced telematics management.",
             "cover": "/images/home/case-study-7.jpg",
             "tag": "Flutter App",
             "categories": [
@@ -186,6 +191,7 @@
             "id": "vehicle-management-app",
             "title": "Vehicle management app",
             "subtitle": "Bluetooth-enabled vehicle insights and insurance workflows.",
+            "summary": "Providing real-time vehicle insights and streamlining insurance claims via a mobile app.",
             "cover": "/images/home/case-study-10.jpg",
             "tag": "Flutter App",
             "categories": [
@@ -210,6 +216,7 @@
             "id": "iot-healthcare-app",
             "title": "IoT Healthcare App",
             "subtitle": "Real-time biosignal tracking for medical research.",
+            "summary": "Enabling precise, real-time biosignal monitoring for advanced medical research applications.",
             "cover": "/images/home/case-study-6.jpg",
             "tag": "Flutter App",
             "categories": [
@@ -233,6 +240,7 @@
             "id": "investment-management-app",
             "title": "Investment Management App",
             "subtitle": "Interactive dashboards for portfolio tracking.",
+            "summary": "Providing clients with intuitive, high-performance dashboards for investment portfolio management.",
             "cover": "/images/home/case-study-12.jpg",
             "tag": "Flutter App",
             "categories": [
@@ -256,6 +264,7 @@
             "id": "sportsbook-and-casino-app",
             "title": "Sportsbook and Casino App",
             "subtitle": "Scalable white-label betting platform.",
+            "summary": "A robust, white-label betting platform designed for global scalability and rapid deployment.",
             "cover": "/images/home/case-study-9.jpg",
             "tag": "Flutter App",
             "categories": [

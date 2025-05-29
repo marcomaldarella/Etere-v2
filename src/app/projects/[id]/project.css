@@ -311,4 +311,9 @@
     .project-details>.related-projects {
         margin-top: 3rem;
     }
+
+    h1 {
+        letter-spacing: -0.07em;
+        font-weight: 600;
+    }
 }

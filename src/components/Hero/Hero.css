@@ -155,11 +155,13 @@
 }
 
 /* CTA button */
+/* CTA button */
+/* CTA button */
 .cta-button {
   position: absolute;
   top: 80%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0.9);
+  left: 45%;
+
   z-index: 3;
   padding: 1rem 2rem;
   font-size: 1.25rem;
@@ -305,4 +307,14 @@ body.blurred::before {
 .hero-logos img {
   opacity: 0;
   transform: translateY(30px);
+}
+
+
+@media (max-width: 900px) {
+
+  /* This targets the h1 specifically inside the .card-title, which is inside .card-content */
+  .card-content .card-title h1 {
+    color: #fff;
+
+  }
 }

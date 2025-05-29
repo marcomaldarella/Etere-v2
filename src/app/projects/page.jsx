@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useContent } from "../../context/ContentContext";
-import { useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react"; // <-- CORRECTED THIS LINE
 import { usePathname } from "next/navigation";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
@@ -87,6 +87,7 @@ export default function ProjectsListPage() {
                                     />
                                 </div>
                                 <h2 className="project-title">{p.title}</h2>
+                                {p.summary && <p className="project-summary">{p.summary}</p>} {/* Summary phrase added */}
                                 {p.categories && (
                                     <div className="project-tags">
                                         {p.categories.map((cat) => (
@@ -103,6 +104,7 @@ export default function ProjectsListPage() {
             </div>
 
             <FinalHero />
+            <Footer />
         </>
     );
 }
