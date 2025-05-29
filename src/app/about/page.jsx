@@ -219,16 +219,14 @@ export default function AboutPage() {
                 <div className={styles.gridContainer}>
                     <div className={styles.gridCol8}>
                         <AnimatedElement className={styles.heroHeadline}>
-                            We master Flutter architectures for custom products and great experience across mobile, web and embedded systems.
-                        </AnimatedElement>
+                            We partner with leading brands to deliver precise, adaptable solutions that turn complex challenges into seamless products. Our focus is on quality, trust, and results that speak louder than names.                        </AnimatedElement>
                     </div>
                     <div className={styles.gridSpacer} />
                     <div className={`${styles.gridCol4} ${styles.descriptionWider}`}>
                         <AnimatedElement delay={300} className={styles.companyDescription}>
-                            etere studio, a miami-based agency born in 2021, is a partnership of high-caliber developers and designers. we work with a global footprint, with offices in us, middle east and europe.
+                            Etere studio, a miami-based agency born in 2021, is a partnership of high-caliber developers and designers. we work with a global footprint, with offices in us, middle east and europe.
                             <br /><br />
-                            Our work exists behind the digital foundations of some of the world’s most respected brands, where complexity transforms into seamless solutions. Trust is built through precision, adaptability, and results that speak louder than names.
-                        </AnimatedElement>
+                            Founded in Miami in 2021, Etere Studio is a global team of expert Flutter developers and designers. With offices in the US, Middle East, and Europe, we specialize in building custom digital experiences across mobile, web, and embedded platforms.                        </AnimatedElement>
                     </div>
                 </div>
             </section>

@@ -26,7 +26,7 @@ jobs:
       run: npm ci
 
     - name: Build project
-      run: npm run build       # CRA → build/   | Vite → dist/   | Next export → out/
+      run: npm run build       
 
     # 4) Rileva la cartella risultante
     - name: Detect build dir
