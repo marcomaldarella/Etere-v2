@@ -1,4 +1,4 @@
-// components/ShuffleText/ShuffleText.jsx
+// components/ShuffleText/ShuffleText.tsx
 "use client";
 
 import { useEffect, useRef, useState } from "react";

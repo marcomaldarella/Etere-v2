@@ -1,4 +1,4 @@
-// src/components/FinalHero/FinalHero.jsx
+// src/components/FinalHero/FinalHero.tsx
 "use client";
 
 import Link from "next/link";
@@ -10,7 +10,8 @@ export default function FinalHero() {
       <div className="final-hero-content">
         <h2 className="final-hero-title">Let’s make it real.</h2>
         <p className="final-hero-text">
-          Ready to turn vision into reality?<br />
+          Ready to turn vision into reality?
+          <br />
           Let’s build something that lasts.
         </p>
         <Link href="/contact">

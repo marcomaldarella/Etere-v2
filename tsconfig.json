@@ -28,7 +28,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-, "src/app/projects/[id]/project-client.jsx"  ],
+, "src/app/projects/[id]/project-client.tsx"  ],
   "exclude": [
     "node_modules"
   ]
