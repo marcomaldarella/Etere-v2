@@ -1,17 +1,17 @@
 "use client";
 
-import Providers from "@/components/Providers";
-import PageWrapper from "@/components/PageWrapper/PageWrapper";
-import Splash from "@/components/Splash/Splash";
+import Providers from "./Providers";
+import PageWrapper from "./PageWrapper/PageWrapper";
+import Splash from "./Splash/Splash";
 
 export default function ClientLayout({ children }) {
-    return (
-        <div suppressHydrationWarning={true}>
-            <Providers>
-                <Splash />
+  return (
+    <div suppressHydrationWarning={true}>
+      <Providers>
+        <Splash />
 
-                <PageWrapper>{children}</PageWrapper>
-            </Providers>
-        </div>
-    );
+        <PageWrapper>{children}</PageWrapper>
+      </Providers>
+    </div>
+  );
 }
